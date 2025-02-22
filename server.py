@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 import sqlite3
 import subprocess
 import json
+import os
 
 import TMDEngine.run as run_engine  # the py module for music recognition
 import config
@@ -179,9 +180,11 @@ def process_sample():
     with open("rec_sample.wav", "wb") as rec:
         recorded_sample.save(rec)
 
-    # converting the saved file to RIFF/RIFX
-    subprocess.run(
-        ["powershell", "ffmpeg -y -i rec_sample.wav rec_output.wav"], shell=True)
+    # converting the saved file to RIFF/RIFX using ffmpeg (device agnostic)
+    if os.name == 'nt':  # Windows
+        subprocess.run(["powershell", "ffmpeg -y -i rec_sample.wav rec_output.wav"], shell=True)
+    else:               # macOS/Linux
+        subprocess.run("ffmpeg -y -i rec_sample.wav rec_output.wav", shell=True)
 
     rec_created = True  # allow song identification to take place
     return redirect(url_for("profilePage"))

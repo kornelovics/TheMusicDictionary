@@ -4,9 +4,7 @@ numpy
 matplotlib
 flask-bcrypt
 scipy
-skimage
-hashlib
+scikit-image
 ffmpeg
-subprocess
 datetime
-json
+mysql-connector-python

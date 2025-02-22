@@ -56,17 +56,17 @@ def build_app(first_build: bool = False, schema_to_use: str = None):
         # building the database for the first time.
         first_conn = db.SQLConnection(build_schema=schema_to_use)
         first_conn.close_cnx()
-    else:  # a build call after the primary database has already been built 
+    else:  # a build call after the primary database has already been built
         if config.are_you_sure:
             pass # the already present database will be deleted.
         else:
             raise ValueError("This action will delete the existing database. Please make necessary checks before re-running.")
-        
+
         db_conn = db.SQLConnection()
         db_conn.delete_database(schema_to_use)
         db_conn.create_database(schema_to_use)
         db_conn.close_cnx()
-        
+
 
     new_conn = db.SQLConnection()
     new_conn.create_tables()  # create the song and fingerprint tables in the database
@@ -77,5 +77,5 @@ def build_app(first_build: bool = False, schema_to_use: str = None):
         print(key, song_info_dict[key])
 
         add_song_to_app(key, song_info_dict[key])  # create fingerprints and add them to the database
-        
-    new_conn.close_cnx()          
+
+    new_conn.close_cnx()

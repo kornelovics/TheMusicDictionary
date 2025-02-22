@@ -144,3 +144,6 @@ flask_session
 logic/config.py
 
 .vscode
+
+# the folder containing the wavs of the songs to be fingerprinted.
+wavs/
